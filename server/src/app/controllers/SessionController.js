@@ -1,32 +1,19 @@
-import jwt from 'jsonwebtoken';
-
-import User from '../models/User';
+import connection from '../../database/sqlite/connection';
 
 class SessionController {
-  async store(req, res) {
-    const { email, password } = req.body;
+  async store(request, response) {
+    const { id } = request.body;
 
-    const user = await User.findOne({ where: { email } });
+    const ong = await connection('ongs')
+      .where('id', id)
+      .select('name')
+      .first();
 
-    if (!user) {
-      return res.status(401).json({ error: 'User not found' });
+    if (!ong) {
+      return response.status(400).json({ error: 'No ONG found with this ID' });
     }
 
-    if (!(await user.checkPassword(password))) {
-      return res.status(401).json({ error: 'Password does not match' });
-    }
-    const { id, name } = user;
-
-    return res.json({
-      user: {
-        id,
-        name,
-        email,
-      },
-      token: jwt.sign({ id }, 'f29618255c309de4469993cce24286ea', {
-        expiresIn: '7d',
-      }),
-    });
+    return response.json(ong);
   }
 }
 

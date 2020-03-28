@@ -1,41 +1,67 @@
 import { Router } from 'express';
+import { celebrate, Segments, Joi } from 'celebrate';
 
-import StudentController from './app/controllers/StudentController';
+import OngController from './app/controllers/OngController';
+import IncidentController from './app/controllers/IncidentController';
+import ProfileController from './app/controllers/ProfileController';
 import SessionController from './app/controllers/SessionController';
-
-import authMiddleware from './app/middlewares/auth';
-import PlanController from './app/controllers/PlanController';
-import RegistrationController from './app/controllers/RegistrationController';
-import CheckinController from './app/controllers/CheckinController';
-import HelpStudentController from './app/controllers/HelpOrders/HelpStudentController';
-import HelpAcademyController from './app/controllers/HelpOrders/HelpAcademyController';
 
 const routes = new Router();
 
+// routes.use(authMiddleware);
 routes.post('/sessions', SessionController.store);
 
-routes.post('/students/:id/checkins', CheckinController.store);
+routes.get('/ong', OngController.index);
+routes.post(
+  '/ong',
+  celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      name: Joi.string().required(),
+      email: Joi.string()
+        .required()
+        .email(),
+      whatsapp: Joi.string()
+        .required()
+        .min(10)
+        .max(11),
+      city: Joi.string().required(),
+      uf: Joi.string()
+        .required()
+        .length(2),
+    }),
+  }),
+  OngController.store
+);
 
-routes.post('/students/:id/help-orders', HelpStudentController.create);
-routes.get('/students/:id/help-orders', HelpStudentController.index);
+routes.get(
+  '/profile',
+  celebrate({
+    [Segments.HEADERS]: Joi.object({
+      authorization: Joi.string().required(),
+    }).unknown(),
+  }),
+  ProfileController.index
+);
 
-// routes.use(authMiddleware);
+routes.post('/incidents', IncidentController.create);
+routes.get(
+  '/incidents',
+  celebrate({
+    [Segments.QUERY]: Joi.object().keys({
+      page: Joi.number(),
+    }),
+  }),
+  IncidentController.index
+);
 
-routes.get('/student', StudentController.index);
-routes.post('/student', StudentController.store);
-routes.put('/student/:id', StudentController.update);
-
-routes.post('/plans', PlanController.store);
-routes.put('/plans/:id', PlanController.update);
-routes.delete('/plans/:id', PlanController.delete);
-routes.get('/plans', PlanController.index);
-
-routes.post('/registration', RegistrationController.store);
-
-routes.get('/students/:id/checkins', CheckinController.index);
-
-routes.get('/students/help-orders', HelpAcademyController.index);
-
-routes.put('/students/help-orders/:id/answer', HelpAcademyController.update);
+routes.delete(
+  '/incidents/:id',
+  celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+      id: Joi.number().required(),
+    }),
+  }),
+  IncidentController.delete
+);
 
 export default routes;

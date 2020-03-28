@@ -5,6 +5,7 @@ import express from 'express';
 import cors from 'cors';
 import 'express-async-errors';
 
+import { errors } from 'celebrate';
 import routes from './routes';
 
 import './database';
@@ -29,6 +30,7 @@ class App {
 
   routes() {
     this.server.use(routes);
+    this.server.use(errors());
   }
 
   exceptionHandler() {

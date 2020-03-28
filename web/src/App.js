@@ -6,6 +6,9 @@ import './config/ReactotronConfig';
 
 import Routes from './routes';
 import history from './services/history';
+import Logon from './pages/Logon';
+
+import Header from './components/Header';
 
 import store from './store';
 
