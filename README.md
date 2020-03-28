@@ -3,10 +3,10 @@
 </h1> -->
 
 <h3 align="center">
-  Template para uso
+  OmniStack 11.0
 </h3>
 
-<p align="center">Código do desafio para a conclusão do Bootcamp GoStack 🎓</p>
+<p align="center">Código do OmniStack 11.0 🎓</p>
 
 
 <p align="center">
@@ -17,7 +17,7 @@
 ## 🚀 Instalação e execução
 
 1. Faça um clone desse repositório;
-2. Entre na pasta rodando `cd challenge-gympoint`;
+2. Entre na pasta rodando `cd OmniStack11`;
 3. Rode `yarn` para instalar as dependências na pasta principal;
 4. Entre em cada pasta que são: api, mobile e web, instale as dependencias. Exemplo: `cd api` e rode `yarn`;
 5. Entre na pasta api com `cd api`, crie um arquivo `.env` na raíz, copie o conteúdo que tem no arquivo `.env.example` e cole no arquivo criado;
@@ -27,7 +27,7 @@
 9. Execute os seeders: `yarn sequelize db:seed:all`;
 10. Com o comando `yarn dev` já é possível executar a api;
 11. Execute este comando para iniciar a aplicação web: `cd ../web && yarn start`;
-12. Rode `cd ../mobile && yarn react-native run-ios` ou `cd ../mobile && yarn react-native run-android` para executar a aplicação no mobile dependendo do SO.;
+12. Rode `cd ../mobile && expo start`  para executar a aplicação no expo.;
 
 ## 🤔 Como contribuir
 
